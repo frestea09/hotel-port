@@ -26,7 +26,7 @@ class LandingPage extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/kasur.jpg'),
+                image: AssetImage('assets/hotel.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     } else {
       setState(() {
-        errorMessage = 'Username atau Password salah';
+        errorMessage = 'Username or Password is incorrect';
       });
     }
   }
@@ -307,24 +307,45 @@ class _BookingDetailsDialogState extends State<BookingDetailsDialog> {
   final TextEditingController _customerNameController = TextEditingController();
   final TextEditingController _customerPhoneController =
       TextEditingController();
+  final TextEditingController _customerEmailController =
+      TextEditingController();
+  final TextEditingController _checkInDateController = TextEditingController();
+  final TextEditingController _checkOutDateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Enter Booking Details'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            controller: _customerNameController,
-            decoration: InputDecoration(labelText: 'Customer Name'),
-          ),
-          TextField(
-            controller: _customerPhoneController,
-            decoration: InputDecoration(labelText: 'Customer Phone'),
-            keyboardType: TextInputType.phone,
-          ),
-        ],
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: _customerNameController,
+              decoration: InputDecoration(labelText: 'Customer Name'),
+            ),
+            TextField(
+              controller: _customerPhoneController,
+              decoration: InputDecoration(labelText: 'Customer Phone'),
+              keyboardType: TextInputType.phone,
+            ),
+            TextField(
+              controller: _customerEmailController,
+              decoration: InputDecoration(labelText: 'Customer Email'),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            TextField(
+              controller: _checkInDateController,
+              decoration: InputDecoration(labelText: 'Check-in Date'),
+              keyboardType: TextInputType.datetime,
+            ),
+            TextField(
+              controller: _checkOutDateController,
+              decoration: InputDecoration(labelText: 'Check-out Date'),
+              keyboardType: TextInputType.datetime,
+            ),
+          ],
+        ),
       ),
       actions: [
         TextButton(
@@ -338,6 +359,9 @@ class _BookingDetailsDialogState extends State<BookingDetailsDialog> {
             widget.onBookingConfirmed({
               'customerName': _customerNameController.text,
               'customerPhone': _customerPhoneController.text,
+              'customerEmail': _customerEmailController.text,
+              'checkInDate': _checkInDateController.text,
+              'checkOutDate': _checkOutDateController.text,
             });
             Navigator.of(context).pop();
           },
@@ -424,6 +448,9 @@ class EditBookingPage extends StatefulWidget {
 class _EditBookingPageState extends State<EditBookingPage> {
   late TextEditingController _nameController;
   late TextEditingController _phoneController;
+  late TextEditingController _emailController;
+  late TextEditingController _checkInDateController;
+  late TextEditingController _checkOutDateController;
 
   @override
   void initState() {
@@ -432,6 +459,12 @@ class _EditBookingPageState extends State<EditBookingPage> {
         TextEditingController(text: widget.booking['customerName']);
     _phoneController =
         TextEditingController(text: widget.booking['customerPhone']);
+    _emailController =
+        TextEditingController(text: widget.booking['customerEmail']);
+    _checkInDateController =
+        TextEditingController(text: widget.booking['checkInDate']);
+    _checkOutDateController =
+        TextEditingController(text: widget.booking['checkOutDate']);
   }
 
   @override
@@ -452,6 +485,18 @@ class _EditBookingPageState extends State<EditBookingPage> {
               controller: _phoneController,
               decoration: InputDecoration(labelText: 'Customer Phone'),
             ),
+            TextField(
+              controller: _emailController,
+              decoration: InputDecoration(labelText: 'Customer Email'),
+            ),
+            TextField(
+              controller: _checkInDateController,
+              decoration: InputDecoration(labelText: 'Check-in Date'),
+            ),
+            TextField(
+              controller: _checkOutDateController,
+              decoration: InputDecoration(labelText: 'Check-out Date'),
+            ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
@@ -459,6 +504,9 @@ class _EditBookingPageState extends State<EditBookingPage> {
                   ...widget.booking,
                   'customerName': _nameController.text,
                   'customerPhone': _phoneController.text,
+                  'customerEmail': _emailController.text,
+                  'checkInDate': _checkInDateController.text,
+                  'checkOutDate': _checkOutDateController.text,
                 });
                 Navigator.pop(context);
               },
