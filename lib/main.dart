@@ -406,6 +406,18 @@ class BookingListPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
+                          icon: Icon(Icons.receipt),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    InvoicePage(booking: bookings[index]),
+                              ),
+                            );
+                          },
+                        ),
+                        IconButton(
                           icon: Icon(Icons.edit),
                           onPressed: () {
                             Navigator.push(
@@ -531,6 +543,66 @@ class AboutPage extends StatelessWidget {
         child: Text(
           'Welcome to Luxury Hotel, the finest place to stay for both leisure and business. Our facilities include world-class dining, a spa, swimming pool, and luxurious rooms. We are dedicated to providing the best service for all our guests.',
           style: TextStyle(fontSize: 18),
+        ),
+      ),
+    );
+  }
+}
+
+class InvoicePage extends StatelessWidget {
+  final Map<String, String> booking;
+
+  InvoicePage({required this.booking});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Invoice'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Luxury Hotel',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Text('Jl. Mewah No. 123, Kota Indah'),
+            Text('Phone: +62 123 456 789'),
+            Divider(height: 30, thickness: 2),
+            Text(
+              'Invoice Details',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Text('Customer Name: ${booking['customerName']}'),
+            Text('Phone: ${booking['customerPhone']}'),
+            Text('Email: ${booking['customerEmail']}'),
+            SizedBox(height: 10),
+            Text('Room: ${booking['name']}'),
+            Text('Price: ${booking['price']}'),
+            Text('Check-in: ${booking['checkInDate']}'),
+            Text('Check-out: ${booking['checkOutDate']}'),
+            SizedBox(height: 10),
+            Divider(height: 30, thickness: 2),
+            Text(
+              'Total Amount: ${booking['price']}',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            Spacer(),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  // Cetak Kwitansi (opsional untuk fitur lanjutan)
+                  Navigator.pop(context);
+                },
+                child: Text('Print Invoice'),
+              ),
+            ),
+          ],
         ),
       ),
     );
